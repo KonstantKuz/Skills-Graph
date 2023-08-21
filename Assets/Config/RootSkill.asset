@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8793bd06b309b45bd416166b1be76f, type: 3}
+  m_Name: RootSkill
+  m_EditorClassIdentifier: 
+  Cost: 0
+  IsLearned:
+    value: 1
+  ChildSkills:
+  - {fileID: 11400000, guid: e2540bfe53750b542be584f0b7f88ad1, type: 2}
+  - {fileID: 11400000, guid: db21499811e2dd940981e6f4fe86ac83, type: 2}
+  - {fileID: 11400000, guid: 6633c0234948610428921a219652b8d6, type: 2}
+  - {fileID: 11400000, guid: ce663b4418a721d479ef10175d57e221, type: 2}
+  - {fileID: 11400000, guid: 462ee8af98eb98943a38c1e955329b50, type: 2}
+  Depth: 0
