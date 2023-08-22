@@ -12,6 +12,9 @@ namespace View
         {
             gameObject.SetActive(model != null);
             
+            _learn.Button.image.color = Color.gray;
+            _forget.Button.image.color = Color.gray;
+            
             if(model == null) return;
 
             _learn.Button.image.color = model.CanLearn ? Color.green : Color.gray;

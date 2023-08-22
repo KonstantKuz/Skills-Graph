@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cost: 10
   IsLearned:
-    value: 1
+    value: 0
   ChildSkills: []
   Depth: 4

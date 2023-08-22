@@ -16,7 +16,7 @@ namespace View
 
         public readonly Dictionary<string, SkillItemModel> Models;
         [CanBeNull]
-        public SkillItemModel SelectedModel { get; set; }
+        public SkillItemModel SelectedModel { get; private set; }
         
         public SkillsTreeModel(SkillsTree skillsTree, Vector2 center, float distance, Action<SkillItemModel> selectedCallback)
         {
@@ -25,6 +25,12 @@ namespace View
             _distance = distance;
             Models = skillsTree.Skills.ToDictionary(it => it.Id, it => new SkillItemModel(it, selectedCallback));
             SetPositionsRecursive();
+        }
+
+        public void SetSelectedItem(SkillItemModel itemModel)
+        {
+            SelectedModel?.SwitchSelectedState();
+            SelectedModel = itemModel;
         }
 
         private void SetPositionsRecursive()

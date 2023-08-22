@@ -10,12 +10,10 @@ namespace View
         [SerializeField] private Button _button;
         [SerializeField] private Text _idText;
 
-        private SkillItemModel _itemModel;
         private IDisposable _disposable;
         
         public void Init(SkillItemModel itemModel)
         {
-            _itemModel = itemModel;
             _idText.text = itemModel.Id;
             (transform as RectTransform).anchoredPosition = itemModel.Position;
             _disposable = itemModel.IsLearned.Subscribe(UpdateIsLearnedState);

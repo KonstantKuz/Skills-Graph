@@ -34,19 +34,28 @@ namespace View
 
         private void OnItemSelected(SkillItemModel item)
         {
-            _model.SelectedModel?.SwitchSelectedState();
-            if (_model.SelectedModel == item)
-            {
-                _selectedSkillView.Init(null);
-                return;
-            }
-            var model = new SelectedSkillModel(_skillService, item, 
-                () => OnLearnButtonClicked(item), 
-                () => OnForgetButtonClicked(item));
+            _model.SetSelectedItem(item);
+            InitSelectedItemView();
+        }
+
+        private void InitSelectedItemView()
+        {
+            var model = new SelectedSkillModel(_skillService, _model.SelectedModel, 
+                () => OnLearnButtonClicked(_model.SelectedModel), 
+                () => OnForgetButtonClicked(_model.SelectedModel));
             _selectedSkillView.Init(model);
         }
 
-        private void OnLearnButtonClicked(SkillItemModel item) => _skillService.TryLearn(item.Id);
-        private void OnForgetButtonClicked(SkillItemModel item) => _skillService.TryForget(item.Id);
+        private void OnLearnButtonClicked(SkillItemModel item)
+        {
+            _skillService.TryLearn(item.Id);
+            InitSelectedItemView();
+        }
+
+        private void OnForgetButtonClicked(SkillItemModel item)
+        {
+            _skillService.TryForget(item.Id);
+            InitSelectedItemView();
+        }
     }
 }
