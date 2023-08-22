@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cost: 10
   IsLearned:
-    value: 1
+    value: 0
   ChildSkills:
   - {fileID: 11400000, guid: 56de322dce89279459e0466a46b492d4, type: 2}
   Depth: 3
