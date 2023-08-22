@@ -19,8 +19,24 @@ namespace Skills
         {
             Root = root;
             Root.IsLearned = new BoolReactiveProperty(true);
-            _skills = BuildTree(Root).ToDictionary(it => it.Id, it => it);
+            _skills = BuildSkills(Root).ToDictionary(it => it.Id, it => it);
             _connections = BuildConnections();
+        }
+
+        private IEnumerable<Skill> BuildSkills(Skill skill, int depth = -1)
+        {
+            var set = new HashSet<Skill>();
+            depth++;
+            skill.Depth = depth;
+            skill.Cost = Random.Range(10, 20);
+            set.Add(skill);
+            foreach (var childSkill in skill.ChildSkills)
+            {
+                childSkill.ParentSkills.Add(skill);
+                set.AddRange(BuildSkills(childSkill, depth));
+            }
+
+            return set;
         }
 
         private Dictionary<Skill, HashSet<Skill>> BuildConnections()
@@ -38,27 +54,11 @@ namespace Skills
             return dictionary;
         }
 
-        private IEnumerable<Skill> BuildTree(Skill skill, int depth = -1)
-        {
-            var set = new HashSet<Skill>();
-            depth++;
-            skill.Depth = depth;
-            skill.Cost = Random.Range(10, 20);
-            set.Add(skill);
-            foreach (var childSkill in skill.ChildSkills)
-            {
-                childSkill.ParentSkills.Add(skill);
-                set.AddRange(BuildTree(childSkill, depth));
-            }
-
-            return set;
-        }
-
         public bool CanLearn(string id)
         {
-            if (_skills[id].IsLearned.Value || _skills[id] == Root) return false;
-            
             var skill = _skills[id];
+            if (skill.IsLearned.Value || skill == Root) return false;
+            
             var queue = new Queue<Skill>();
             queue.Enqueue(skill);
             while (queue.Count > 0)
@@ -78,11 +78,11 @@ namespace Skills
             var skill = _skills[id];
             if (skill == Root || !skill.IsLearned.Value) return false;
             
-            var maxLearned = GetDeepestLearnedSkill(id);
-            if (skill == maxLearned) return true;
+            var deepestLearnedSkill = GetDeepestLearnedSkill(id);
+            if (skill == deepestLearnedSkill) return true;
             
-            var possiblePathesToMaxLearned = BuildPossibleBranches(maxLearned).ToList();
-            return possiblePathesToMaxLearned.Where(branch => !branch.Contains(skill))
+            var possibleBranchesWithDeepestSkill = BuildPossibleBranches(deepestLearnedSkill).ToList();
+            return possibleBranchesWithDeepestSkill.Where(branch => !branch.Contains(skill))
                 .Any(branch => branch.All(it => it.IsLearned.Value));
         }
 
