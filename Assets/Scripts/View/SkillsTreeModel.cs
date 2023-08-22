@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using Skills;
 using UnityEngine;
 
@@ -9,13 +8,11 @@ namespace View
 {
     public class SkillsTreeModel
     {
-        
         private readonly SkillsTree _skillsTree;
         private readonly Vector2 _center;
         private readonly float _distance;
 
-        public readonly Dictionary<string, SkillItemModel> Models;
-        [CanBeNull]
+        public readonly Dictionary<string, SkillItemModel> Items;
         public SkillItemModel SelectedModel { get; private set; }
         
         public SkillsTreeModel(SkillsTree skillsTree, Vector2 center, float distance, Action<SkillItemModel> selectedCallback)
@@ -23,7 +20,7 @@ namespace View
             _skillsTree = skillsTree;
             _center = center;
             _distance = distance;
-            Models = skillsTree.Skills.ToDictionary(it => it.Id, it => new SkillItemModel(it, selectedCallback));
+            Items = skillsTree.Skills.ToDictionary(it => it.Id, it => new SkillItemModel(it, selectedCallback));
             SetPositionsRecursive();
         }
 
@@ -52,12 +49,12 @@ namespace View
             }
             else
             {
-                position = Models[skill.ParentSkills.First().Id].Position;
+                position = Items[skill.ParentSkills.First().Id].Position;
                 var offset = Quaternion.Euler(0, 0, relativeAngle) * (Vector2.up * _distance + sideOffset);
                 position += new Vector2(offset.x, offset.y);
             }
 
-            Models[skill.Id].SetPosition(position);
+            Items[skill.Id].SetPosition(position);
 
             var nextSkillsCount = skill.ChildSkills.Length;
             for (var i = 0; i < nextSkillsCount; i++)
@@ -69,10 +66,10 @@ namespace View
         
         private Vector2 GetRelativeToParents(Skill skill)
         {
-            var relativePosition = skill.ParentSkills.Select(it => Models[it.Id].Position)
+            var relativePosition = skill.ParentSkills.Select(it => Items[it.Id].Position)
                                        .Aggregate(Vector2.zero, (positionSum, position) => positionSum + position) 
                                    / skill.ParentSkills.Count;
-            var parentsLine = Models[skill.ParentSkills.First().Id].Position - Models[skill.ParentSkills.Last().Id].Position;
+            var parentsLine = Items[skill.ParentSkills.First().Id].Position - Items[skill.ParentSkills.Last().Id].Position;
             parentsLine = new Vector2(parentsLine.y, -parentsLine.x);
             var directionToCenter = (relativePosition - _center);
             parentsLine *= Vector2.Dot(parentsLine, directionToCenter);

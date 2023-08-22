@@ -2,6 +2,7 @@
 using System.Linq;
 using UniRx;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Skills
 {
@@ -42,6 +43,7 @@ namespace Skills
             var set = new HashSet<Skill>();
             depth++;
             skill.Depth = depth;
+            skill.Cost = Random.Range(10, 20);
             set.Add(skill);
             foreach (var childSkill in skill.ChildSkills)
             {
@@ -74,7 +76,7 @@ namespace Skills
         public bool CanForget(string id)
         {
             var skill = _skills[id];
-            if (!skill.IsLearned.Value) return false;
+            if (skill == Root || !skill.IsLearned.Value) return false;
             
             var maxLearned = GetDeepestLearnedSkill(id);
             if (skill == maxLearned) return true;

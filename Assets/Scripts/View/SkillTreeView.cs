@@ -13,7 +13,7 @@ namespace View
         {
             Clear();
 
-            foreach (var itemModel in model.Models.Values)
+            foreach (var itemModel in model.Items.Values)
             {
                 var skillView = Instantiate(_skillItemViewPrefab, Root);
                 skillView.Init(itemModel);

@@ -8,6 +8,12 @@ namespace View
     {
         private Button _button;
         public Button Button => _button ??= gameObject.GetComponent<Button>();
+
+        public Color Color
+        {
+            get => Button.image.color;
+            set => Button.image.color = value;
+        }
         
         public void Init(Action action)
         {

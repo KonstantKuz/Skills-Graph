@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd8793bd06b309b45bd416166b1be76f, type: 3}
-  m_Name: Skill 4
+  m_Name: Skill 3
   m_EditorClassIdentifier: 
-  Cost: 10
+  Cost: 19
   IsLearned:
     value: 0
   ChildSkills:
-  - {fileID: 11400000, guid: 5592f61f6904d5b4f88a4c3b8ee935ec, type: 2}
-  - {fileID: 11400000, guid: a24520c6cc45cd145867e115b14f6b7b, type: 2}
-  Depth: 1
+  - {fileID: 11400000, guid: 35fb44ab6a4918f47ad8b5d8eb8b5c16, type: 2}
+  - {fileID: 11400000, guid: 8a9087ac0026f8a4693ed852782e7f81, type: 2}
+  - {fileID: 11400000, guid: 407daf9a888fb65438fb57b5437ef659, type: 2}
+  Depth: 2

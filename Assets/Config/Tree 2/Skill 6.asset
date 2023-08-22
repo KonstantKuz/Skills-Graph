@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd8793bd06b309b45bd416166b1be76f, type: 3}
+  m_Name: Skill 6
+  m_EditorClassIdentifier: 
+  Cost: 17
+  IsLearned:
+    value: 0
+  ChildSkills:
+  - {fileID: 11400000, guid: 4a5a38a206487934a8c9907dbb4757de, type: 2}
+  Depth: 2

@@ -1,5 +1,5 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace View
 {
@@ -7,20 +7,17 @@ namespace View
     {
         [SerializeField] private ActionButton _learn;
         [SerializeField] private ActionButton _forget;
+        [SerializeField] private Text _skillCostText;
 
-        public void Init([CanBeNull]SelectedSkillModel model)
+        public void Init(SelectedSkillModel model)
         {
-            gameObject.SetActive(model != null);
-            
-            _learn.Button.image.color = Color.gray;
-            _forget.Button.image.color = Color.gray;
-            
-            if(model == null) return;
-
-            _learn.Button.image.color = model.CanLearn ? Color.green : Color.gray;
+            _learn.Color = model.CanLearn ? Color.green : Color.gray;
             _learn.Init(model.OnLearnButtonClicked);
-            _forget.Button.image.color = model.CanForget ? Color.red : Color.gray;
+            
+            _forget.Color = model.CanForget ? Color.red : Color.gray;
             _forget.Init(model.OnForgetButtonClicked);
+           
+            _skillCostText.text = model.Cost;
         }
     }
 }
