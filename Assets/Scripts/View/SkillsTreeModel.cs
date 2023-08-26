@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Skills;
+using UniRx;
 using UnityEngine;
 
 namespace View
@@ -13,7 +14,9 @@ namespace View
         private readonly float _distance;
 
         public readonly Dictionary<string, SkillItemModel> Items;
-        public SkillItemModel SelectedModel { get; private set; }
+
+        public ReactiveProperty<SkillItemModel> SelectedItem { get; } = new ReactiveProperty<SkillItemModel>();
+        public string SelectedItemId => SelectedItem.Value.Id;
         
         public SkillsTreeModel(SkillsTree skillsTree, Vector2 center, float distance, Action<SkillItemModel> selectedCallback)
         {
@@ -26,8 +29,8 @@ namespace View
 
         public void SetSelectedItem(SkillItemModel itemModel)
         {
-            SelectedModel?.SwitchSelectedState();
-            SelectedModel = itemModel;
+            SelectedItem.Value?.SwitchSelectedState();
+            SelectedItem.Value = itemModel;
         }
 
         private void SetPositionsRecursive()

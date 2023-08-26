@@ -7,7 +7,7 @@ namespace View
 {
     public class SkillItemView : MonoBehaviour
     {
-        [SerializeField] private Button _button;
+        [SerializeField] private ActionButton _button;
         [SerializeField] private Text _idText;
 
         private IDisposable _disposable;
@@ -16,20 +16,16 @@ namespace View
         {
             _idText.text = itemModel.Id;
             (transform as RectTransform).anchoredPosition = itemModel.Position;
-            _disposable = itemModel.IsLearned.Subscribe(UpdateIsLearnedState);
-            _button.onClick.AddListener(() => itemModel.OnItemClicked?.Invoke(itemModel));
+            _disposable = itemModel.IsLearned.Subscribe(UpdateColor);
+            _button.Init(() => itemModel.OnItemClicked?.Invoke(itemModel));
         }
 
-        private void UpdateIsLearnedState(bool isLearned)
-        {
-            _button.image.color = isLearned ? Color.green : Color.gray;
-        }
+        private void UpdateColor(bool isLearned) => _button.Color = isLearned ? Color.green : Color.gray;
 
         private void OnDestroy()
         {
             _disposable?.Dispose();
             _disposable = null;
-            _button.onClick.RemoveAllListeners();
         }
     }
 }

@@ -20,5 +20,7 @@ namespace View
             Button.onClick.RemoveAllListeners();
             Button.onClick.AddListener(() => action?.Invoke());
         }
+
+        private void OnDisable() => Button.onClick.RemoveAllListeners();
     }
 }

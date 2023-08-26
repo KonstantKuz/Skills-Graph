@@ -14,48 +14,37 @@ namespace View
         [SerializeField] private ActionButton _forgetAllButton;
         
         private SkillsTreeModel _model;
-        public void OnEnable()
-        {
-            Init();
-        }
+        
+        public void OnEnable() => Init();
 
         private void Init()
+        {
+            InitSkillTreeView();
+            InitSelectedItemView();
+            
+            _pointsText.Init(_skillService.Points.Select(it => it.ToString()));
+            _addPointsButton.Init(() => _skillService.AddSkillPoints(10));
+            _forgetAllButton.Init(_skillService.ForgetAll);
+        }
+
+        private void InitSkillTreeView()
         {
             _model = new SkillsTreeModel(_skillService.SkillsTree,
                 _skillTreeView.Root.anchoredPosition,
                 _skillTreeView.DistanceBetweenItems, 
                 OnItemSelected);
             _skillTreeView.Init(_model);
-         
-            _pointsText.Init(_skillService.Points.Select(it => it.ToString()));
-            _addPointsButton.Init(() => _skillService.AddSkillPoints(10));
-            _forgetAllButton.Init(_skillService.ForgetAll);
-        }
 
-        private void OnItemSelected(SkillItemModel item)
-        {
-            _model.SetSelectedItem(item);
-            InitSelectedItemView();
         }
-
+        
         private void InitSelectedItemView()
         {
-            var model = new SelectedSkillModel(_skillService, _model.SelectedModel, 
-                () => OnLearnButtonClicked(_model.SelectedModel), 
-                () => OnForgetButtonClicked(_model.SelectedModel));
+            var model = new SelectedSkillModel(_skillService, _model.SelectedItem, OnLearnButtonClicked, OnForgetButtonClicked);
             _selectedSkillView.Init(model);
         }
 
-        private void OnLearnButtonClicked(SkillItemModel item)
-        {
-            _skillService.TryLearn(item.Id);
-            InitSelectedItemView();
-        }
-
-        private void OnForgetButtonClicked(SkillItemModel item)
-        {
-            _skillService.TryForget(item.Id);
-            InitSelectedItemView();
-        }
+        private void OnItemSelected(SkillItemModel item) => _model.SetSelectedItem(item);
+        private void OnLearnButtonClicked() => _skillService.TryLearn(_model.SelectedItemId);
+        private void OnForgetButtonClicked() => _skillService.TryForget(_model.SelectedItemId);
     }
 }

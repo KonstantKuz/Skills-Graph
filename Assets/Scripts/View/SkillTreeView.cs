@@ -20,9 +20,6 @@ namespace View
             }
         }
 
-        private void Clear()
-        {
-            Array.ForEach(Root.GetComponentsInChildren<SkillItemView>(), it => Destroy(it.gameObject));
-        }
+        private void Clear() => Array.ForEach(Root.GetComponentsInChildren<SkillItemView>(), it => Destroy(it.gameObject));
     }
 }
